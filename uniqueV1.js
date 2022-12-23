@@ -1,3 +1,5 @@
+console.log('script started')
+
 //Declare account number to use.
 const account_number=1
 
