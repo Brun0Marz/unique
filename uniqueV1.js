@@ -30,15 +30,17 @@ Http.onreadystatechange = (e) => {
     resp=Http.responseText;
     resp_json=JSON.parse(resp);
     id_code_new=resp_json['id_code'];
+
+    web_url=window.location.href
     
     if (id_code_new) {
         let paramString = window.location.href.split('?')[1];
         id_string_old='id_code='+id_code.toString();
         id_string_new='id_code='+id_code_new;
         var ret = paramString.replace(id_string_old,id_string_new);
-        window.history.replaceState(null, null, ret)
+        window.history.replaceState(null, null, web_url+ret)
     } else {
         var ret = paramString.replace(id_string_old,'')
-        window.history.replaceState(null, null, ret);
+        window.history.replaceState(null, null, web_url+ret);
     }
 }
