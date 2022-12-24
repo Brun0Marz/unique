@@ -38,6 +38,8 @@ Http.onreadystatechange = (e) => {
         id_string_old='id_code='+id_code.toString();
         id_string_new='id_code='+id_code_new;
         var ret = paramString.replace(id_string_old,id_string_new);
+        console.log(web_url)
+        console.log(ret)
         window.history.replaceState(null, null, web_url+ret)
     } else {
         var ret = paramString.replace(id_string_old,'')
