@@ -1,4 +1,17 @@
-console.log('script started')
+
+function get_new_id(url) {
+    const Http = new XMLHttpRequest();
+    Http.open("GET", url_with_account,false);
+    Http.send();
+    resp= Http.responseText;
+
+    resp_json=JSON.parse(resp);
+    id_code_new= resp_json['id_code']
+
+
+    return id_code_new
+}
+
 
 //Declare account number to use.
 const account_number=1
@@ -7,10 +20,9 @@ const account_number=1
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const id_code = urlParams.get('id_code')
-console.log(id_code)
+
 
 //Formulate api query string and make query.
-const Http = new XMLHttpRequest();
 const base_url='http://localhost:8000/process_id?accNum=';
 
 var url_with_account = base_url+account_number.toString();
@@ -21,30 +33,21 @@ if (id_code) {
 
 }
 
-console.log(url_with_account)
 
-Http.open("GET", url_with_account);
-Http.send();
+id_code_new= get_new_id(url_with_account);
 
-Http.onreadystatechange = (e) => {
-    resp=Http.responseText;
-    resp_json=JSON.parse(resp);
-    id_code_new=resp_json['id_code'];
+web_url=window.location.href.split('?')[0]
 
-    web_url=window.location.href
-    
-    if (id_code_new) {
-        console.log('id code found, messing around')
-        let paramString = window.location.href.split('?')[1];
-        id_string_old='id_code='+id_code.toString();
-        id_string_new='id_code='+id_code_new;
-        var ret = paramString.replace(id_string_old,id_string_new);
-        console.log(web_url)
-        console.log(ret)
-        window.history.replaceState(null, null, web_url+ret)
-    } else {
-        console.log('No id code found, adding.')
-        var ret = paramString.replace(id_string_old,'')
-        window.history.replaceState(null, null, web_url+ret);
-    }
+let paramString = window.location.href.split('?')[1];
+
+
+if (paramString) {
+    id_string_old='id_code='+id_code.toString();
+    id_string_new='id_code='+id_code_new;
+    var ret = paramString.replace(id_string_old,id_string_new);
+    window.history.replaceState(null, null, web_url+'?'+ret)
+} else {
+        
+    paramString='?'+'id_code='+id_code_new
+    window.history.replaceState(null, null, web_url+paramString)
 }

@@ -1,5 +1,5 @@
 from distutils.log import debug
-from flask import Flask,jsonify,request
+from flask import Flask,jsonify,request,make_response
 
 from mongoDBqueries import *
 from id_generator import generate_id
@@ -60,8 +60,14 @@ def id_processing_exists():
                 write_new_to_db(ip_address=ip_address,code_old=id_code,code_new=newCode,isFirst=False,wasReferred=True,code_reused=False)
             else:
                 write_new_to_db(ip_address=ip_address,code_old=None,code_new=newCode,isFirst=False,wasReferred=False,code_reused=False)
-    
-    response = jsonify({'id_code': newCode})
+
+    response = make_response(
+                jsonify(
+                    {'id_code': newCode}
+                ),
+                200,
+            )
+    response.headers["Content-Type"] = "application/json"
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
