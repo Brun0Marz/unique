@@ -34,6 +34,7 @@ Http.onreadystatechange = (e) => {
     web_url=window.location.href
     
     if (id_code_new) {
+        console.log('id code found, messing around')
         let paramString = window.location.href.split('?')[1];
         id_string_old='id_code='+id_code.toString();
         id_string_new='id_code='+id_code_new;
@@ -42,6 +43,7 @@ Http.onreadystatechange = (e) => {
         console.log(ret)
         window.history.replaceState(null, null, web_url+ret)
     } else {
+        console.log('No id code found, adding.')
         var ret = paramString.replace(id_string_old,'')
         window.history.replaceState(null, null, web_url+ret);
     }
