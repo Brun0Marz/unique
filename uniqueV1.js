@@ -14,7 +14,7 @@ function get_new_id(url) {
     return id_code_new
 }
 
-if (!sessionStorage.isNewSession) {
+if (sessionStorage.isNewSession) {
 
     //get id_code parameter.
     const queryString = window.location.search;
@@ -52,5 +52,5 @@ if (!sessionStorage.isNewSession) {
         window.history.replaceState(null, null, web_url+paramString)
     }
 } else {
-    
+
 }
